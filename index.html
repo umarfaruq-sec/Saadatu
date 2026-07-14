@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Girlfriend? 💕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-deep:#e0218a;
+    --pink-hot:#ff4fa3;
+    --pink-mid:#ff8fc7;
+    --pink-light:#ffd6ec;
+    --cream:#fff3f9;
+    --purple:#a239ca;
+    --gold:#ffd166;
+    --text-dark:#5a1a44;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Quicksand', sans-serif;
+    background: linear-gradient(160deg, var(--cream) 0%, var(--pink-light) 45%, #ffe1f2 100%);
+    color:var(--text-dark);
+    overflow-x:hidden;
+    position:relative;
+  }
+  h1,h2,h3, .display{
+    font-family:'Baloo 2', cursive;
+  }
+
+  /* floating hearts background */
+  .floaty{
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .floaty span{
+    position:absolute;
+    bottom:-10%;
+    font-size: 22px;
+    opacity:0.5;
+    animation: floatUp linear infinite;
+    color: var(--pink-hot);
+  }
+  @keyframes floatUp{
+    0%{ transform: translateY(0) rotate(0deg); opacity:0;}
+    10%{opacity:0.6;}
+    100%{ transform: translateY(-120vh) rotate(360deg); opacity:0;}
+  }
+
+  .section{
+    position:relative;
+    z-index:1;
+    max-width:720px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+
+  /* ---------- SECTION 1: ASK ---------- */
+  #ask-section h1{
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    color: var(--pink-deep);
+    margin-bottom: 6px;
+    text-shadow: 2px 2px 0 #fff;
+  }
+  #ask-section p.sub{
+    font-size:1.05rem;
+    margin-bottom:40px;
+    color: var(--text-dark);
+    opacity:0.85;
+  }
+  .btn-area{
+    position:relative;
+    width:100%;
+    height:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .yes-btn{
+    background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+    color:#fff;
+    border:none;
+    border-radius:100px;
+    font-family:'Baloo 2';
+    font-weight:700;
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    cursor:pointer;
+    box-shadow: 0 10px 25px rgba(224,33,138,0.35);
+    transition: transform 0.35s ease, font-size 0.35s ease, padding 0.35s ease, box-shadow 0.35s ease;
+    z-index:2;
+  }
+  .yes-btn:hover{ transform: scale(1.04); }
+  .no-btn{
+    background:#fff;
+    color: var(--pink-deep);
+    border:2px solid var(--pink-mid);
+    border-radius:100px;
+    font-family:'Quicksand';
+    font-weight:600;
+    padding: 16px 34px;
+    font-size: 1rem;
+    cursor:pointer;
+    position:absolute;
+    transition: left 0.25s ease, top 0.25s ease;
+    z-index:3;
+  }
+  .no-clicks-msg{
+    margin-top: 18px;
+    font-size:0.95rem;
+    color: var(--purple);
+    min-height: 24px;
+    font-weight:600;
+  }
+
+  /* ---------- SECTION 2: MESSAGE ---------- */
+  #message-section{ display:none; }
+  .envelope-wrap{
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+  .envelope{
+    width:120px; height:84px;
+    background: var(--pink-hot);
+    border-radius:8px;
+    position:relative;
+    box-shadow: 0 12px 25px rgba(224,33,138,0.3);
+    transition: transform 0.3s ease;
+  }
+  .envelope:before{
+    content:"";
+    position:absolute;
+    top:0; left:0;
+    width:0; height:0;
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+    border-top: 44px solid var(--pink-deep);
+  }
+  .envelope-wrap:hover .envelope{ transform: translateY(-6px) scale(1.05); }
+  .read-label{
+    font-weight:700;
+    color:var(--pink-deep);
+    font-family:'Baloo 2';
+  }
+  .letter{
+    display:none;
+    background:#fff;
+    border-radius:18px;
+    padding: 32px 28px;
+    margin-top:28px;
+    box-shadow: 0 15px 40px rgba(224,33,138,0.18);
+    text-align:left;
+    line-height:1.7;
+    font-size:1.05rem;
+    max-width: 560px;
+  }
+  .letter.show{ display:block; animation: fadeUp 0.5s ease; }
+  .letter .signoff{
+    margin-top:18px;
+    font-family:'Baloo 2';
+    color:var(--pink-deep);
+    font-weight:700;
+  }
+  .next-btn{
+    margin-top:28px;
+    background: linear-gradient(135deg, var(--purple), var(--pink-deep));
+    color:#fff;
+    border:none;
+    border-radius: 100px;
+    padding: 14px 30px;
+    font-family:'Baloo 2';
+    font-weight:600;
+    font-size:1rem;
+    cursor:pointer;
+    display:none;
+  }
+  .next-btn.show{ display:inline-block; animation: fadeUp 0.5s ease; }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform: translateY(14px);}
+    to{ opacity:1; transform: translateY(0);}
+  }
+
+  /* ---------- SECTION 3: SPECIAL MOMENTS ---------- */
+  #moments-section{ display:none; }
+  .moments-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    width:100%;
+    margin-top: 30px;
+  }
+  @media(min-width:520px){
+    .moments-grid{ grid-template-columns: repeat(4, 1fr); }
+  }
+  .polaroid{
+    background:#fff;
+    padding: 10px 10px 30px 10px;
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(90,26,68,0.15);
+    transform: rotate(var(--r,0deg));
+    cursor:pointer;
+    transition: transform 0.25s ease;
+    position:relative;
+  }
+  .polaroid:nth-child(1){ --r:-4deg; }
+  .polaroid:nth-child(2){ --r:3deg; }
+  .polaroid:nth-child(3){ --r:-2deg; }
+  .polaroid:nth-child(4){ --r:2deg; }
+  .polaroid:nth-child(5){ --r:-3deg; }
+  .polaroid:nth-child(6){ --r:4deg; }
+  .polaroid:hover{ transform: rotate(0deg) scale(1.06); z-index:5; }
+  .polaroid .frame{
+    width:100%;
+    aspect-ratio: 1/1;
+    border-radius:3px;
+    background: linear-gradient(135deg, var(--pink-mid), var(--pink-light));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.2rem;
+    overflow:hidden;
+    position:relative;
+  }
+  .polaroid .frame img,
+  .polaroid .frame video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .play-badge{
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%,-50%);
+    width:36px; height:36px;
+    background: rgba(255,255,255,0.85);
+    color: var(--pink-deep);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.9rem;
+    pointer-events:none;
+    transition: opacity 0.2s ease;
+  }
+  .play-badge.hide{ opacity:0; }
+  .polaroid .cap{
+    position:absolute;
+    bottom:6px; left:0; right:0;
+    text-align:center;
+    font-size:0.78rem;
+    font-weight:600;
+    color: var(--text-dark);
+    padding:0 6px;
+  }
+  .hint{
+    margin-top:22px;
+    font-size:0.9rem;
+    color:var(--purple);
+    opacity:0.8;
+  }
+  .final-btn{
+    margin-top:34px;
+    background: linear-gradient(135deg, var(--pink-hot), var(--purple));
+    color:#fff;
+    border:none;
+    border-radius:100px;
+    padding: 16px 36px;
+    font-family:'Baloo 2';
+    font-weight:700;
+    font-size:1.1rem;
+    cursor:pointer;
+    box-shadow: 0 10px 25px rgba(162,57,202,0.3);
+  }
+
+  /* ---------- CELEBRATION MODAL ---------- */
+  #celebrate{
+    position:fixed; inset:0;
+    background: rgba(224,33,138,0.55);
+    backdrop-filter: blur(3px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+  }
+  #celebrate.show{ display:flex; }
+  .celebrate-card{
+    background:#fff;
+    border-radius:24px;
+    padding: 40px 30px;
+    text-align:center;
+    max-width: 340px;
+    animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  }
+  @keyframes popIn{
+    0%{ transform: scale(0.4); opacity:0;}
+    100%{ transform: scale(1); opacity:1;}
+  }
+  .bear{
+    position:relative;
+    width:140px;
+    height:150px;
+    margin:0 auto;
+    animation: bounce 0.7s ease-in-out infinite;
+  }
+  @keyframes bounce{
+    0%,100%{ transform: translateY(0) scale(1,1); }
+    45%{ transform: translateY(-30px) scale(1,1.03); }
+    50%{ transform: translateY(-32px) scale(1.03,0.97); }
+    100%{ transform: translateY(0) scale(1,1); }
+  }
+  .bear .shadow{
+    position:absolute;
+    bottom:-6px; left:50%;
+    width:70px; height:14px;
+    background: rgba(90,26,68,0.18);
+    border-radius:50%;
+    transform: translateX(-50%);
+    animation: shadowPulse 0.7s ease-in-out infinite;
+  }
+  @keyframes shadowPulse{
+    0%,100%{ width:70px; opacity:0.18; }
+    50%{ width:50px; opacity:0.1; }
+  }
+  .bear .ear{
+    position:absolute;
+    top:0; width:34px; height:34px;
+    background:#b9773f;
+    border-radius:50%;
+  }
+  .bear .ear.left{ left:6px; }
+  .bear .ear.right{ right:6px; }
+  .bear .ear:after{
+    content:"";
+    position:absolute;
+    top:8px; left:8px;
+    width:18px; height:18px;
+    background:#e3a875;
+    border-radius:50%;
+  }
+  .bear .head{
+    position:absolute;
+    top:16px; left:20px;
+    width:100px; height:90px;
+    background:#c98950;
+    border-radius:50% 50% 46% 46%;
+  }
+  .bear .snout{
+    position:absolute;
+    top:54px; left:50%;
+    width:50px; height:38px;
+    background:#f3d9b8;
+    border-radius:50%;
+    transform: translateX(-50%);
+  }
+  .bear .nose{
+    position:absolute;
+    top:62px; left:50%;
+    width:16px; height:12px;
+    background:#5a1a44;
+    border-radius:50%;
+    transform: translateX(-50%);
+  }
+  .bear .eye{
+    position:absolute;
+    top:44px;
+    width:8px; height:8px;
+    background:#3a1030;
+    border-radius:50%;
+  }
+  .bear .eye.left{ left:38px; }
+  .bear .eye.right{ right:38px; }
+  .bear .blush{
+    position:absolute;
+    top:58px;
+    width:14px; height:8px;
+    background: rgba(255,111,163,0.55);
+    border-radius:50%;
+  }
+  .bear .blush.left{ left:22px; }
+  .bear .blush.right{ right:22px; }
+  .bear .body{
+    position:absolute;
+    top:96px; left:26px;
+    width:88px; height:60px;
+    background:#c98950;
+    border-radius:46% 46% 50% 50%;
+  }
+  .bear .arm{
+    position:absolute;
+    top:100px;
+    width:24px; height:24px;
+    background:#c98950;
+    border-radius:50%;
+    animation: wave 0.7s ease-in-out infinite;
+  }
+  .bear .arm.left{ left:8px; transform-origin: top right; }
+  .bear .arm.right{ right:8px; transform-origin: top left; animation-delay:0.1s; }
+  @keyframes wave{
+    0%,100%{ transform: rotate(0deg); }
+    50%{ transform: rotate(-18deg); }
+  }
+  .celebrate-card h2{
+    color: var(--pink-deep);
+    font-size: 1.7rem;
+    margin: 14px 0 6px;
+  }
+  .celebrate-card p{
+    color: var(--text-dark);
+    opacity:0.8;
+  }
+  .close-cel{
+    margin-top: 20px;
+    background: var(--pink-light);
+    color: var(--pink-deep);
+    border:none;
+    border-radius:100px;
+    padding: 10px 22px;
+    font-weight:700;
+    font-family:'Quicksand';
+    cursor:pointer;
+  }
+  .confetti{
+    position:absolute;
+    width:8px; height:14px;
+    top:-20px;
+    opacity:0.9;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(400deg); opacity:0.9; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floaty" id="floaty"></div>
+
+<!-- SECTION 1: THE ASK -->
+<section class="section" id="ask-section">
+  <h1>Will You Be My Girlfriend? 💗</h1>
+  <p class="sub">Hey you... I have something important to ask you 👀</p>
+  <div class="btn-area" id="btn-area">
+    <button class="no-btn" id="noBtn">No 🙈</button>
+    <button class="yes-btn" id="yesBtn">Yes! 💖</button>
+  </div>
+  <div class="no-clicks-msg" id="noMsg"></div>
+</section>
+
+<!-- SECTION 2: THE MESSAGE -->
+<section class="section" id="message-section">
+  <h2 style="color:var(--pink-deep); font-size:1.7rem;">She said yes! 🎉</h2>
+  <p style="margin-bottom:10px; opacity:0.85;">Now there's something I want you to read...</p>
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope"></div>
+    <div class="read-label">Tap to read message 💌</div>
+  </div>
+  <div class="letter" id="letter">
+    <p>I don't say this enough, but you make every ordinary day feel like something worth looking forward to.</p>
+    <p>You're kind in a way that isn't loud about it, funny when I least expect it, and somehow you make me want to be a better version of myself just by being around you.</p>
+    <p>I built this whole silly little website just to make sure you know: you are so loved, so appreciated, and so incredibly special to me.</p>
+    <div class="signoff">Yours always 🤍</div>
+  </div>
+  <button class="next-btn" id="nextBtn">See our special moments →</button>
+</section>
+
+<!-- SECTION 3: SPECIAL MOMENTS -->
+<section class="section" id="moments-section">
+  <h2 style="color:var(--pink-deep); font-size:1.7rem;">Our Special Moments 📸</h2>
+  <p style="opacity:0.85;">Tap each polaroid for a little memory</p>
+  <div class="moments-grid" id="momentsGrid"></div>
+  <div class="hint" id="momentsHint">Tap a photo to reveal the memory ✨</div>
+  <button class="final-btn" id="finalBtn">Okay... one more thing 💗</button>
+</section>
+
+<!-- CELEBRATION MODAL -->
+<div id="celebrate">
+  <div class="celebrate-card" id="celCard">
+    <div class="bear">
+      <div class="shadow"></div>
+      <div class="ear left"></div>
+      <div class="ear right"></div>
+      <div class="head"></div>
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="blush left"></div>
+      <div class="blush right"></div>
+      <div class="snout"></div>
+      <div class="nose"></div>
+      <div class="body"></div>
+      <div class="arm left"></div>
+      <div class="arm right"></div>
+    </div>
+    <h2>Yey she said yes!!</h2>
+    <p>Best. Day. Ever. 🎊💕</p>
+    <button class="close-cel" id="closeCel">aww 🥹</button>
+  </div>
+</div>
+
+<script>
+  // floating hearts background
+  const floaty = document.getElementById('floaty');
+  const heartChars = ['💗','💕','💖','💓','✨'];
+  for(let i=0;i<18;i++){
+    const s = document.createElement('span');
+    s.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
+    s.style.left = Math.random()*100 + '%';
+    s.style.animationDuration = (8 + Math.random()*10) + 's';
+    s.style.animationDelay = (Math.random()*10) + 's';
+    s.style.fontSize = (14 + Math.random()*18) + 'px';
+    floaty.appendChild(s);
+  }
+
+  // SECTION 1 logic
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const btnArea = document.getElementById('btn-area');
+  const noMsg = document.getElementById('noMsg');
+  const askSection = document.getElementById('ask-section');
+  const messageSection = document.getElementById('message-section');
+
+  let noClicks = 0;
+  const noMessages = [
+    "wait, really? 🥺",
+    "come on, click yes 👉👈",
+    "you sure about that? 😳",
+    "the no button is shy, it keeps running 🙈",
+    "yes is right there... 💗",
+    "okay you're just doing this for fun now 😂"
+  ];
+
+  let yesScale = 1;
+
+  function moveNoButton(){
+    const areaRect = btnArea.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+    const maxX = areaRect.width - btnRect.width;
+    const maxY = areaRect.height - btnRect.height;
+    const newX = Math.max(0, Math.random() * maxX);
+    const newY = Math.max(0, Math.random() * maxY);
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+  }
+
+  // position it initially inline (not absolute) then switch to absolute on first interaction
+  function initNoButton(){
+    const areaRect = btnArea.getBoundingClientRect();
+    noBtn.style.left = (areaRect.width/2 - 160) + 'px';
+    noBtn.style.top = (areaRect.height/2 - 25) + 'px';
+  }
+  window.addEventListener('load', initNoButton);
+  window.addEventListener('resize', initNoButton);
+
+  function runAway(){
+    noClicks++;
+    moveNoButton();
+    yesScale = Math.min(2.6, 1 + noClicks * 0.18);
+    yesBtn.style.fontSize = (1.2 * yesScale) + 'rem';
+    yesBtn.style.padding = (18 * Math.min(1.6,yesScale)) + 'px ' + (40 * Math.min(1.8,yesScale)) + 'px';
+    noMsg.textContent = noMessages[Math.min(noClicks-1, noMessages.length-1)];
+  }
+
+  noBtn.addEventListener('mouseenter', runAway);
+  noBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    runAway();
+  });
+  noBtn.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    runAway();
+  });
+
+  yesBtn.addEventListener('click', function(){
+    celebrate.classList.add('show');
+    launchConfetti();
+  });
+
+  // SECTION 2 logic
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const letter = document.getElementById('letter');
+  const nextBtn = document.getElementById('nextBtn');
+  const momentsSection = document.getElementById('moments-section');
+
+  envelopeWrap.addEventListener('click', function(){
+    letter.classList.add('show');
+    nextBtn.classList.add('show');
+    envelopeWrap.style.display = 'none';
+  });
+
+  nextBtn.addEventListener('click', function(){
+    messageSection.style.display = 'none';
+    momentsSection.style.display = 'flex';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // SECTION 3 logic - moments
+  const moments = [
+    { type:'image', src:'media/photo1.jpg', caption:'The day we first talked' },
+    { type:'image', src:'media/photo2.jpg', caption:'You, but prettier than any flower' },
+    { type:'image', src:'media/photo3.jpg', caption:'That one photo I can\'t stop looking at' },
+    { type:'image', src:'media/photo4.jpg', caption:'Late night calls that fixed my whole day' },
+    { type:'video', src:'media/video1.mp4', caption:'That day we couldn\'t stop laughing' },
+    { type:'video', src:'media/video2.mp4', caption:'Our favorite food spot' },
+    { type:'video', src:'media/video3.mp4', caption:'That movie night we never finished' },
+    { type:'video', src:'media/video4.mp4', caption:'Just us being us' }
+  ];
+  const momentsGrid = document.getElementById('momentsGrid');
+  moments.forEach((m, i) => {
+    const card = document.createElement('div');
+    card.className = 'polaroid';
+    const mediaHtml = m.type === 'image'
+      ? `<img src="${m.src}" alt="${m.caption}" onerror="this.parentElement.innerHTML='📷'">`
+      : `<video src="${m.src}" muted loop playsinline preload="metadata" onerror="this.parentElement.innerHTML='🎬'"></video>`;
+    card.innerHTML = `<div class="frame">${mediaHtml}${m.type === 'video' ? '<div class=\"play-badge\">▶</div>' : ''}</div><div class="cap" style="opacity:0">${m.caption}</div>`;
+    card.addEventListener('click', function(){
+      const cap = card.querySelector('.cap');
+      cap.style.opacity = 1;
+      const vid = card.querySelector('video');
+      if(vid){
+        if(vid.paused){ vid.play(); card.querySelector('.play-badge')?.classList.add('hide'); }
+        else{ vid.pause(); card.querySelector('.play-badge')?.classList.remove('hide'); }
+      }
+    });
+    momentsGrid.appendChild(card);
+  });
+
+  // SECTION 3 -> celebration
+  const finalBtn = document.getElementById('finalBtn');
+  const celebrate = document.getElementById('celebrate');
+  const closeCel = document.getElementById('closeCel');
+
+  function launchConfetti(){
+    const colors = ['#ff4fa3','#ffd166','#a239ca','#ff8fc7','#e0218a'];
+    for(let i=0;i<60;i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random()*100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration = (2 + Math.random()*2) + 's';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      document.body.appendChild(c);
+      setTimeout(()=> c.remove(), 4200);
+    }
+  }
+
+  finalBtn.addEventListener('click', function(){
+    launchConfetti();
+    finalBtn.textContent = 'You mean everything to me 🥰';
+    finalBtn.disabled = true;
+  });
+
+  closeCel.addEventListener('click', function(){
+    celebrate.classList.remove('show');
+    askSection.style.display = 'none';
+    messageSection.style.display = 'flex';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>
+
